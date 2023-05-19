@@ -35,4 +35,6 @@ jobs:
           cacheFrom: ghcr.io/joaquinrz/helmv-devcontainer
           push: never
           runCmd: |
-              helm unittest /workspaces/helm-validate-sample/chart/ngsa              
+              cp -R /workspaces/helm-validate-sample/chart/ngsa /tmp
+              helm unittest /tmp/ngsa
+            
