@@ -27,4 +27,12 @@ jobs:
           push: never
           runCmd: |
               kube-linter lint /workspaces/helm-validate-sample/chart/ngsa
-
+      
+      - name: Run Helm Unit Test
+        id: helm-lint
+        uses: devcontainers/ci@v0.3
+        with:    
+          cacheFrom: ghcr.io/joaquinrz/helmv-devcontainer
+          push: never
+          runCmd: |
+              helm unittest /workspaces/helm-validate-sample/chart/ngsa              
