@@ -31,7 +31,7 @@ spec:
               containerPort: {{ .Values.port }}
               protocol: TCP
 
-          readinessProbee:
+          readinessProbe:
             initialDelaySeconds: 5
             failureThreshold: 60
             periodSeconds: 2
