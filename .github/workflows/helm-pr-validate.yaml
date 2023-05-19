@@ -1,17 +1,12 @@
 name: Helm Validate - PR
-
 on:
-  push:
-    branches:
-      - joaquin-ci
-#   pull_request:
-#     types:
-#       - opened
-#       - synchronize
+  pull_request:
+    types:
+      - opened
+      - synchronize
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
-
 jobs:
   build:
     name: Validate NGSA Helm Chart
@@ -27,7 +22,7 @@ jobs:
           push: never
           runCmd: |
               kube-linter lint /workspaces/helm-validate-sample/chart/ngsa
-      
+
       - name: Run Helm Unit Tests
         id: helm-unittest
         uses: devcontainers/ci@v0.3
