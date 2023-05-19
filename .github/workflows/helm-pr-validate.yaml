@@ -4,6 +4,8 @@ on:
     types:
       - opened
       - synchronize
+    paths:
+    - 'charts/ngsa/**'
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
