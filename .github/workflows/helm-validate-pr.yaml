@@ -6,7 +6,7 @@ on:
       - synchronize
     paths:
     - 'charts/ngsa/**'
-    - '.github/workflows/helm-pr-validate.yaml'
+    - '.github/workflows/helm-validate-pr.yaml'
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
