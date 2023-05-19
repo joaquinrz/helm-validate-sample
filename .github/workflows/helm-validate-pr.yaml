@@ -11,7 +11,7 @@ concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 jobs:
-  build:
+  validate:
     name: Validate NGSA Helm Chart
     runs-on: ubuntu-22.04
     steps:
