@@ -1,0 +1,30 @@
+name: Helm Validate - PR
+
+on:
+  push:
+    branches:
+      - joaquin-ci
+#   pull_request:
+#     types:
+#       - opened
+#       - synchronize
+# concurrency:
+#   group: ${{ github.ref }}-${{ github.workflow }}
+#   cancel-in-progress: true
+
+jobs:
+  build:
+    name: Validate NGSA Helm Chart
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Kube Linter
+        id: helm-lint
+        uses: devcontainers/ci@v0.3
+        with:    
+          cacheFrom: ghcr.io/joaquinrz/helmv-devcontainer
+          push: never
+          runCmd: |
+              kube-linter lint /workspaces/helm-validate-sample/chart/ngsa
+
