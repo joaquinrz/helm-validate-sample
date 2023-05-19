@@ -37,4 +37,17 @@ jobs:
           runCmd: |
               cp -R /workspaces/helm-validate-sample/chart/ngsa /tmp
               helm unittest /tmp/ngsa
-            
+
+      - name: Run Kubeconform Checks
+        id: kubeconform-checks
+        uses: devcontainers/ci@v0.3
+        with:    
+          cacheFrom: ghcr.io/joaquinrz/helmv-devcontainer
+          push: never
+          runCmd: |
+              helm template /workspaces/helm-validate-sample/chart/ngsa | \
+              kubeconform \
+              -strict \
+              -schema-location default \
+              -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
+              -
