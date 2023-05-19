@@ -24,7 +24,7 @@ jobs:
           cacheFrom: ghcr.io/joaquinrz/helmv-devcontainer
           push: never
           runCmd: |
-              kube-linter lint /workspaces/helm-validate-sample/chart/ngsa
+              kube-linter lint /workspaces/helm-validate-sample/charts/ngsa
 
       - name: Run Helm Unit Tests
         id: helm-unittest
@@ -33,7 +33,7 @@ jobs:
           cacheFrom: ghcr.io/joaquinrz/helmv-devcontainer
           push: never
           runCmd: |
-              cp -R /workspaces/helm-validate-sample/chart/ngsa /tmp
+              cp -R /workspaces/helm-validate-sample/charts/ngsa /tmp
               helm unittest /tmp/ngsa
 
       - name: Run Kubeconform Checks
@@ -43,7 +43,7 @@ jobs:
           cacheFrom: ghcr.io/joaquinrz/helmv-devcontainer
           push: never
           runCmd: |
-              helm template /workspaces/helm-validate-sample/chart/ngsa | \
+              helm template /workspaces/helm-validate-sample/charts/ngsa | \
               kubeconform \
               -strict \
               -schema-location default \
