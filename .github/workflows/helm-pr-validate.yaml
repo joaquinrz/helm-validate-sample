@@ -29,7 +29,7 @@ jobs:
               kube-linter lint /workspaces/helm-validate-sample/chart/ngsa
       
       - name: Run Helm Unit Test
-        id: helm-lint
+        id: helm-unittest
         uses: devcontainers/ci@v0.3
         with:    
           cacheFrom: ghcr.io/joaquinrz/helmv-devcontainer
