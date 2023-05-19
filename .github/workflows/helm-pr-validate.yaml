@@ -1,24 +1,20 @@
-name: Helm Validate and Publish
+name: Helm Validate - PR
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
     paths:
     - 'charts/ngsa/**'
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
-
 jobs:
-  release:
-    permissions:
-      contents: write
-    runs-on: ubuntu-latest
+  build:
+    name: Validate NGSA Helm Chart
+    runs-on: ubuntu-22.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v3
 
       - name: Run Kube Linter
         id: helm-lint
@@ -28,7 +24,7 @@ jobs:
           push: never
           runCmd: |
               kube-linter lint /workspaces/helm-validate-sample/chart/ngsa
-      
+
       - name: Run Helm Unit Tests
         id: helm-unittest
         uses: devcontainers/ci@v0.3
@@ -52,16 +48,3 @@ jobs:
               -schema-location default \
               -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
               -
-
-      - name: Configure Git
-        run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
-      - name: Install Helm
-        uses: azure/setup-helm@v3
-
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.5.0
-        env:
-          CR_TOKEN: "${{ secrets.HELM_RELEASE_TOKEN }}"
